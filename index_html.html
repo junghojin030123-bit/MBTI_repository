@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="10개 문항으로 알아보는 나의 커리어 성향 테스트" />
+  <title>나의 커리어 플레이스타일 테스트</title>
+  <style>
+    :root {
+      --ink: #20213a;
+      --muted: #74758b;
+      --line: #e7e7f0;
+      --paper: #ffffff;
+      --bg: #f5f5fb;
+      --primary: #6257d9;
+      --primary-dark: #4d43bf;
+      --primary-soft: #eeedff;
+      --teal: #2c9b91;
+      --shadow: 0 18px 55px rgba(42, 38, 94, .10);
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(160, 153, 255, .19), transparent 28rem),
+        radial-gradient(circle at 92% 90%, rgba(127, 213, 201, .16), transparent 25rem),
+        var(--bg);
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+      line-height: 1.6;
+    }
+    button { font: inherit; }
+    .wrap { width: min(100% - 32px, 780px); margin: 0 auto; padding: 42px 0 56px; }
+    .brand { display: flex; justify-content: center; align-items: center; gap: 9px; margin-bottom: 24px; color: #77778e; font-size: 13px; font-weight: 750; letter-spacing: .08em; }
+    .brand-mark { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 9px; color: #fff; background: linear-gradient(135deg, #8177f3, #55b7ad); font-size: 15px; }
+    .shell { overflow: hidden; background: rgba(255,255,255,.94); border: 1px solid rgba(255,255,255,.9); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .hero { padding: 58px 56px 52px; text-align: center; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 999px; color: var(--primary-dark); background: var(--primary-soft); font-size: 12px; font-weight: 800; letter-spacing: .04em; }
+    h1 { margin: 20px 0 13px; font-size: clamp(30px, 5vw, 43px); line-height: 1.22; letter-spacing: -.055em; }
+    .hero-copy { max-width: 480px; margin: 0 auto; color: var(--muted); font-size: 15px; word-break: keep-all; }
+    .hero-art { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 32px 0 30px; }
+    .art-card { display: grid; place-items: center; width: 78px; height: 78px; border: 1px solid #eeedf8; border-radius: 22px; background: linear-gradient(145deg, #fafaff, #f0efff); font-size: 31px; box-shadow: 0 8px 20px rgba(76, 69, 160, .07); }
+    .art-card:nth-child(2) { transform: translateY(-11px); background: linear-gradient(145deg, #f2fffc, #e9f8f5); }
+    .art-card:nth-child(3) { background: linear-gradient(145deg, #fff9f1, #fff1df); }
+    .meta-row { display: flex; justify-content: center; gap: 18px; margin-bottom: 28px; color: #85859a; font-size: 12px; }
+    .meta-row span { display: inline-flex; align-items: center; gap: 6px; }
+    .primary-btn, .secondary-btn { display: inline-flex; justify-content: center; align-items: center; gap: 9px; border: 0; border-radius: 14px; cursor: pointer; font-weight: 800; transition: transform .16s ease, box-shadow .16s ease, background .16s ease; }
+    .primary-btn { min-height: 54px; padding: 0 27px; color: #fff; background: linear-gradient(135deg, #7168e8, #5a50cf); box-shadow: 0 9px 22px rgba(98, 87, 217, .25); }
+    .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(98, 87, 217, .3); }
+    .secondary-btn { min-height: 46px; padding: 0 18px; border: 1px solid var(--line); color: #55566e; background: #fff; }
+    button:focus-visible { outline: 3px solid rgba(98,87,217,.28); outline-offset: 3px; }
+    .footnote { margin: 18px 0 0; color: #9696a8; font-size: 11px; }
+    .test-panel { padding: 38px 48px 42px; }
+    .progress-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: #77788e; font-size: 12px; font-weight: 750; }
+    .progress-track { height: 7px; overflow: hidden; border-radius: 99px; background: #efeff6; }
+    .progress-fill { width: 10%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #8178f1, #58b9ae); transition: width .25s ease; }
+    .question-top { display: flex; align-items: center; gap: 8px; margin-top: 38px; }
+    .q-number { color: var(--primary); font-size: 13px; font-weight: 850; }
+    .q-category { padding: 5px 9px; border-radius: 999px; color: #77788e; background: #f4f4f9; font-size: 11px; font-weight: 750; }
+    h2 { margin: 15px 0 9px; font-size: clamp(22px, 4vw, 28px); line-height: 1.4; letter-spacing: -.04em; word-break: keep-all; }
+    .question-hint { margin: 0 0 25px; color: var(--muted); font-size: 13px; }
+    .choices { display: grid; gap: 12px; }
+    .choice { display: flex; align-items: flex-start; gap: 14px; width: 100%; padding: 19px 20px; border: 1.5px solid var(--line); border-radius: 16px; color: var(--ink); background: #fff; text-align: left; cursor: pointer; transition: border .15s ease, background .15s ease, transform .15s ease; }
+    .choice:hover { transform: translateY(-1px); border-color: #bcb8f5; background: #fcfbff; }
+    .choice.selected { border-color: var(--primary); background: #f5f4ff; box-shadow: 0 0 0 3px rgba(98,87,217,.08); }
+    .choice-letter { display: grid; flex: 0 0 29px; place-items: center; width: 29px; height: 29px; border-radius: 9px; color: #77778e; background: #f0f0f6; font-size: 12px; font-weight: 850; }
+    .choice.selected .choice-letter { color: #fff; background: var(--primary); }
+    .choice-text { padding-top: 2px; font-size: 14px; font-weight: 650; line-height: 1.55; word-break: keep-all; }
+    .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 29px; }
+    .text-btn { padding: 10px 0; border: 0; color: #88889b; background: none; cursor: pointer; font-size: 13px; font-weight: 750; }
+    .text-btn:disabled { opacity: .35; cursor: default; }
+    .next-btn { min-height: 47px; padding: 0 22px; }
+    .result-panel { padding: 42px 48px 44px; }
+    .result-head { text-align: center; }
+    .result-code { color: var(--primary); font-size: 12px; font-weight: 850; letter-spacing: .13em; }
+    .result-emoji { display: grid; place-items: center; width: 84px; height: 84px; margin: 17px auto 13px; border: 1px solid #eeedf8; border-radius: 26px; background: linear-gradient(145deg, #f6f5ff, #effaf8); font-size: 39px; }
+    .result-head h1 { margin: 0 0 9px; font-size: clamp(28px, 4.5vw, 37px); }
+    .result-subtitle { max-width: 490px; margin: 0 auto; color: var(--muted); font-size: 14px; word-break: keep-all; }
+    .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 33px; }
+    .info-card { padding: 19px 20px; border: 1px solid var(--line); border-radius: 17px; background: #fff; }
+    .info-card h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 11px; font-size: 14px; }
+    .info-card p { margin: 0; color: #66677d; font-size: 13px; line-height: 1.7; word-break: keep-all; }
+    .info-card ul { margin: 0; padding-left: 17px; color: #66677d; font-size: 13px; line-height: 1.8; }
+    .wide { grid-column: 1 / -1; }
+    .axis-box { margin-top: 22px; padding: 21px 22px; border-radius: 17px; background: #f7f7fc; }
+    .axis-title { margin: 0 0 17px; font-size: 13px; font-weight: 850; }
+    .axis { margin-top: 13px; }
+    .axis-labels { display: flex; justify-content: space-between; margin-bottom: 7px; color: #77788e; font-size: 11px; font-weight: 750; }
+    .axis-bar { display: flex; height: 9px; overflow: hidden; border-radius: 99px; background: #e8e8f1; }
+    .axis-left { background: linear-gradient(90deg, #8278ef, #a39cf7); transition: width .3s ease; }
+    .axis-right { flex: 1; background: linear-gradient(90deg, #87d2c8, #52b6a9); }
+    .type-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin-top: 20px; }
+    .type-tag { padding: 6px 10px; border-radius: 999px; color: #686984; background: #f1f1f8; font-size: 11px; font-weight: 750; }
+    .result-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 27px; }
+    .disclaimer { margin: 23px 0 0; color: #9696a8; text-align: center; font-size: 11px; line-height: 1.6; }
+    .hidden { display: none !important; }
+    @media (max-width: 620px) {
+      .wrap { width: min(100% - 20px, 780px); padding: 20px 0 30px; }
+      .brand { margin-bottom: 15px; }
+      .hero { padding: 42px 22px 36px; }
+      .art-card { width: 66px; height: 66px; border-radius: 18px; font-size: 27px; }
+      .test-panel, .result-panel { padding: 28px 21px 30px; }
+      .question-top { margin-top: 29px; }
+      .choice { padding: 16px 14px; }
+      .result-grid { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
+      .meta-row { gap: 12px; }
+    }
+    @media print {
+      body { background: white; }
+      .wrap { width: 100%; padding: 0; }
+      .brand, .result-actions, .disclaimer { display: none !important; }
+      .shell { border: 0; box-shadow: none; }
+      .result-panel { padding: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="brand"><span class="brand-mark">✦</span> CAREER PLAYSTYLE</div>
+    <section class="shell hero" id="startScreen">
+      <div class="eyebrow">✦ 10 QUESTIONS · 4 TYPES</div>
+      <h1>나의 커리어<br>플레이스타일은?</h1>
+      <p class="hero-copy">일할 때 나는 어떤 방식으로 문제를 풀고, 사람들과 협력할까요? 10개의 질문에 답하고 나에게 가까운 커리어 성향을 확인해 보세요.</p>
+      <div class="hero-art" aria-hidden="true"><div class="art-card">🧭</div><div class="art-card">🧩</div><div class="art-card">🚀</div></div>
+      <div class="meta-row"><span>◷ 약 2분</span><span>▤ 총 10문항</span><span>✧ 결과 유형 4가지</span></div>
+      <button class="primary-btn" id="startBtn">테스트 시작하기 <span aria-hidden="true">→</span></button>
+      <p class="footnote">정답은 없습니다. 평소 나의 모습에 가장 가까운 선택지를 골라주세요.</p>
+    </section>
+
+    <section class="shell test-panel hidden" id="testScreen" aria-live="polite">
+      <div class="progress-head"><span id="progressLabel">QUESTION 01 / 10</span><span id="progressPercent">10%</span></div>
+      <div class="progress-track" role="progressbar" aria-label="테스트 진행률" aria-valuemin="0" aria-valuemax="100" aria-valuenow="10" id="progressTrack"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="question-top"><span class="q-number" id="questionNumber">Q1</span><span class="q-category" id="questionCategory">문제 접근 방식</span></div>
+      <h2 id="questionText">질문이 여기에 표시됩니다.</h2>
+      <p class="question-hint">둘 중 평소 나의 행동에 더 가까운 쪽을 선택해 주세요.</p>
+      <div class="choices" id="choices"></div>
+      <div class="nav-row">
+        <button class="text-btn" id="backBtn" type="button">← 이전 문항</button>
+        <button class="primary-btn next-btn" id="nextBtn" type="button" disabled>다음 문항 →</button>
+      </div>
+    </section>
+
+    <section class="shell result-panel hidden" id="resultScreen" aria-live="polite">
+      <div class="result-head">
+        <div class="result-code" id="resultCode">TYPE A-I</div>
+        <div class="result-emoji" id="resultEmoji">🧭</div>
+        <h1 id="resultTitle">전략 설계형</h1>
+        <p class="result-subtitle" id="resultSubtitle"></p>
+      </div>
+      <div class="type-tags" id="typeTags"></div>
+      <div class="axis-box">
+        <p class="axis-title">나의 응답 경향</p>
+        <div class="axis">
+          <div class="axis-labels"><span>분석·구조형</span><span>실행·실험형</span></div>
+          <div class="axis-bar"><div class="axis-left" id="analysisBar"></div><div class="axis-right" id="actionBar"></div></div>
+        </div>
+        <div class="axis">
+          <div class="axis-labels"><span>주도·독립형</span><span>협업·관계형</span></div>
+          <div class="axis-bar"><div class="axis-left" id="independentBar"></div><div class="axis-right" id="collaborationBar"></div></div>
+        </div>
+      </div>
+      <div class="result-grid" id="resultDetails"></div>
+      <div class="result-actions">
+        <button class="secondary-btn" id="copyBtn" type="button">결과 요약 복사</button>
+        <button class="secondary-btn" id="printBtn" type="button">결과 인쇄</button>
+        <button class="primary-btn" id="restartBtn" type="button">다시 테스트하기 ↻</button>
+      </div>
+      <p class="disclaimer">이 테스트는 자기이해와 진로 탐색을 돕기 위한 참고 도구이며, 전문적인 심리검사나 채용 적합성 평가를 대체하지 않습니다.<br>직무 만족도와 성과는 개인의 역량, 경험, 조직 환경 등 다양한 요인에 따라 달라질 수 있습니다.</p>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      { axis: 'thinking', category: '문제 접근 방식', text: '새로운 과제를 맡았을 때 나는 보통…', options: [
+        '전체 구조와 목표를 먼저 파악한 뒤 시작한다.',
+        '작은 일부터 직접 해보며 방향을 잡는다.'
+      ]},
+      { axis: 'working', category: '일하는 방식', text: '팀 프로젝트를 할 때 더 편안한 방식은…', options: [
+        '내 역할과 책임을 맡아 독립적으로 완성하는 것',
+        '팀원들과 자주 의견을 나누며 함께 완성하는 것'
+      ]},
+      { axis: 'thinking', category: '문제 접근 방식', text: '의사결정이 필요한 상황에서 나는…', options: [
+        '자료와 근거를 모아 비교한 뒤 결정한다.',
+        '가능한 방법을 빠르게 시도하고 결과를 보며 결정한다.'
+      ]},
+      { axis: 'working', category: '일하는 방식', text: '성과를 내기 좋은 업무 환경은…', options: [
+        '목표와 개인별 책임 범위가 명확한 환경',
+        '서로 역할을 연결하고 함께 성과를 만드는 환경'
+      ]},
+      { axis: 'thinking', category: '문제 접근 방식', text: '복잡한 문제가 생겼을 때 나는…', options: [
+        '문제를 여러 요소로 나누고 원인부터 분석한다.',
+        '우선 실행 가능한 해결책을 만들어 적용해 본다.'
+      ]},
+      { axis: 'working', category: '일하는 방식', text: '프로젝트를 이끌 기회가 주어진다면…', options: [
+        '내가 방향을 정하고 주도적으로 추진하는 편이다.',
+        '구성원의 의견을 모으고 합의점을 만드는 편이다.'
+      ]},
+      { axis: 'thinking', category: '문제 접근 방식', text: '업무 계획을 세울 때 나는…', options: [
+        '일정과 기준, 예상 변수를 미리 정리한다.',
+        '큰 방향만 정하고 진행하면서 유연하게 조정한다.'
+      ]},
+      { axis: 'working', category: '일하는 방식', text: '일을 잘 마쳤다고 느끼는 순간은…', options: [
+        '내가 맡은 과제를 높은 완성도로 끝냈을 때',
+        '팀원들과 힘을 합쳐 기대 이상의 결과를 만들었을 때'
+      ]},
+      { axis: 'thinking', category: '문제 접근 방식', text: '기존 방식으로 성과가 나지 않을 때 나는…', options: [
+        '데이터와 과거 사례를 살펴 원인을 찾아본다.',
+        '현장을 관찰하고 새로운 방법을 바로 시도해 본다.'
+      ]},
+      { axis: 'working', category: '일하는 방식', text: '중요한 결정을 앞두고 나는…', options: [
+        '필요한 정보를 정리해 스스로 판단하고 책임진다.',
+        '관련된 사람들과 논의해 관점을 넓힌 뒤 결정한다.'
+      ]}
+    ];
+
+    const profiles = {
+      'A-I': {
+        title: '전략 설계형', emoji: '🧭', subtitle: '근거를 바탕으로 방향을 설계하고, 스스로 책임 있게 완성도를 높이는 유형입니다.',
+        tags: ['분석적 사고', '계획과 구조화', '독립적 실행'],
+        strength: '복잡한 문제를 구조화하고 핵심 원인을 찾는 데 강점이 있습니다. 목표와 기준을 명확히 세워 안정적으로 결과를 만들어 갑니다.',
+        environment: '목표와 권한이 명확하고, 깊이 생각할 시간과 자율성이 보장되는 환경에서 역량을 발휘하기 쉽습니다.',
+        watch: '충분히 검토하려다 실행 시점이 늦어질 수 있습니다. 완벽한 계획을 기다리기보다 작은 실험으로 가설을 확인해 보세요.',
+        roles: ['사업·경영 기획', '전략·시장 분석', '재무·관리 업무', '프로젝트 기획']
+      },
+      'A-C': {
+        title: '협업 분석형', emoji: '🧩', subtitle: '정보와 관점을 정리하고, 사람들과 논의하며 합리적인 해결책을 만들어 가는 유형입니다.',
+        tags: ['논리적 소통', '조율과 분석', '공동 문제 해결'],
+        strength: '다양한 의견 속에서 공통점을 찾고 정보를 이해하기 쉽게 정리합니다. 논리와 소통을 연결해 팀의 판단을 돕습니다.',
+        environment: '전문성을 존중하면서도 지식과 의견을 활발하게 공유하는 환경, 협업 구조와 목표가 분명한 조직에서 역량을 발휘하기 쉽습니다.',
+        watch: '모두의 의견을 충분히 반영하려다 결정이 늦어질 수 있습니다. 논의의 마감 시점과 최종 의사결정자를 먼저 정하면 도움이 됩니다.',
+        roles: ['마케팅 리서치', '인사·조직 기획', '컨설팅·고객 인사이트', '서비스·정책 기획']
+      },
+      'E-I': {
+        title: '도전 실행형', emoji: '🚀', subtitle: '빠르게 시도하고 결과를 확인하며, 주도적으로 새로운 기회를 만들어 가는 유형입니다.',
+        tags: ['빠른 실행', '도전과 실험', '주도적 추진'],
+        strength: '불확실한 상황에서도 행동을 시작하고, 실행 과정에서 배운 점을 다음 시도에 반영합니다. 변화와 속도가 필요한 과제에 강점이 있습니다.',
+        environment: '의사결정이 빠르고 실험을 허용하며, 개인의 주도성과 책임이 인정되는 환경에서 동기부여를 얻기 쉽습니다.',
+        watch: '속도를 우선하다 세부 검토나 이해관계자 공유를 놓칠 수 있습니다. 실행 전 핵심 위험과 성공 기준을 짧게 점검해 보세요.',
+        roles: ['신사업·사업개발', '스타트업 운영', '영업·제휴', '프로덕트 실행·운영']
+      },
+      'E-C': {
+        title: '관계 촉진형', emoji: '🌱', subtitle: '현장에서 기회를 발견하고, 사람들을 연결해 함께 움직이는 과정에서 에너지를 얻는 유형입니다.',
+        tags: ['현장 감각', '관계 형성', '팀 실행력'],
+        strength: '상대의 반응을 빠르게 파악하고 협력의 분위기를 만듭니다. 구성원들의 참여를 이끌어 실질적인 행동과 변화를 촉진합니다.',
+        environment: '사람과의 접점이 많고 피드백이 빠르며, 팀 단위로 목표를 달성하는 환경에서 역량을 발휘하기 쉽습니다.',
+        watch: '관계와 실행을 우선하다 업무의 우선순위나 개인의 집중 시간이 부족해질 수 있습니다. 핵심 목표와 역할을 문서로 정리해 보세요.',
+        roles: ['고객 성공·서비스 운영', '인사·교육·조직문화', '커뮤니티·파트너십', '이벤트·프로젝트 운영']
+      }
+    };
+
+    let current = 0;
+    let answers = Array(questions.length).fill(null);
+    const $ = (id) => document.getElementById(id);
+    const startScreen = $('startScreen');
+    const testScreen = $('testScreen');
+    const resultScreen = $('resultScreen');
+
+    function showScreen(screen) {
+      [startScreen, testScreen, resultScreen].forEach(s => s.classList.add('hidden'));
+      screen.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderQuestion() {
+      const q = questions[current];
+      const progress = Math.round(((current + 1) / questions.length) * 100);
+      $('progressLabel').textContent = `QUESTION ${String(current + 1).padStart(2, '0')} / ${questions.length}`;
+      $('progressPercent').textContent = `${progress}%`;
+      $('progressFill').style.width = `${progress}%`;
+      $('progressTrack').setAttribute('aria-valuenow', progress);
+      $('questionNumber').textContent = `Q${current + 1}`;
+      $('questionCategory').textContent = q.category;
+      $('questionText').textContent = q.text;
+      $('choices').innerHTML = '';
+      q.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `choice${answers[current] === index ? ' selected' : ''}`;
+        button.setAttribute('aria-pressed', answers[current] === index ? 'true' : 'false');
+        button.innerHTML = `<span class="choice-letter">${index === 0 ? 'A' : 'B'}</span><span class="choice-text"></span>`;
+        button.querySelector('.choice-text').textContent = option;
+        button.addEventListener('click', () => {
+          answers[current] = index;
+          renderQuestion();
+        });
+        $('choices').appendChild(button);
+      });
+      $('backBtn').disabled = current === 0;
+      $('nextBtn').disabled = answers[current] === null;
+      $('nextBtn').textContent = current === questions.length - 1 ? '결과 확인하기 →' : '다음 문항 →';
+    }
+
+    function axisResult(axis) {
+      const indexes = questions.map((q, i) => q.axis === axis ? i : -1).filter(i => i >= 0);
+      const firstCount = indexes.filter(i => answers[i] === 0).length;
+      const secondCount = indexes.length - firstCount;
+      // 동점이면 해당 축의 마지막 문항 응답을 반영해 유형을 결정합니다.
+      const selected = firstCount === secondCount ? answers[indexes[indexes.length - 1]] : (firstCount > secondCount ? 0 : 1);
+      return { selected, firstCount, secondCount, total: indexes.length };
+    }
+
+    function renderResult() {
+      const thinking = axisResult('thinking');
+      const working = axisResult('working');
+      const code = `${thinking.selected === 0 ? 'A' : 'E'}-${working.selected === 0 ? 'I' : 'C'}`;
+      const profile = profiles[code];
+      $('resultCode').textContent = `TYPE ${code}`;
+      $('resultEmoji').textContent = profile.emoji;
+      $('resultTitle').textContent = profile.title;
+      $('resultSubtitle').textContent = profile.subtitle;
+      $('typeTags').innerHTML = profile.tags.map(tag => `<span class="type-tag">${tag}</span>`).join('');
+      $('analysisBar').style.width = `${(thinking.firstCount / thinking.total) * 100}%`;
+      $('actionBar').style.width = `${(thinking.secondCount / thinking.total) * 100}%`;
+      $('independentBar').style.width = `${(working.firstCount / working.total) * 100}%`;
+      $('collaborationBar').style.width = `${(working.secondCount / working.total) * 100}%`;
+      const cards = [
+        ['✦', '주요 강점', profile.strength, ''],
+        ['⌂', '잘 맞는 업무 환경', profile.environment, ''],
+        ['↗', '유의하면 좋은 점', profile.watch, ''],
+        ['▤', '탐색해 볼 만한 역할', profile.roles.map(role => `<li>${role}</li>`).join(''), 'wide list']
+      ];
+      $('resultDetails').innerHTML = cards.map(([icon, title, body, extra]) => {
+        const isList = extra.includes('list');
+        return `<article class="info-card ${extra}"><h3><span aria-hidden="true">${icon}</span>${title}</h3>${isList ? `<ul>${body}</ul>` : `<p>${body}</p>`}</article>`;
+      }).join('');
+      showScreen(resultScreen);
+    }
+
+    $('startBtn').addEventListener('click', () => { current = 0; answers = Array(questions.length).fill(null); showScreen(testScreen); renderQuestion(); });
+    $('backBtn').addEventListener('click', () => { if (current > 0) { current--; renderQuestion(); } });
+    $('nextBtn').addEventListener('click', () => {
+      if (answers[current] === null) return;
+      if (current < questions.length - 1) { current++; renderQuestion(); }
+      else renderResult();
+    });
+    $('restartBtn').addEventListener('click', () => { current = 0; answers = Array(questions.length).fill(null); showScreen(startScreen); });
+    $('printBtn').addEventListener('click', () => window.print());
+    $('copyBtn').addEventListener('click', async () => {
+      const code = $('resultCode').textContent;
+      const title = $('resultTitle').textContent;
+      const summary = `${title} (${code})\n${$('resultSubtitle').textContent}\n\n${$('resultDetails').innerText}`;
+      try {
+        await navigator.clipboard.writeText(summary);
+        $('copyBtn').textContent = '복사 완료 ✓';
+        setTimeout(() => $('copyBtn').textContent = '결과 요약 복사', 1800);
+      } catch (error) {
+        const temp = document.createElement('textarea');
+        temp.value = summary; document.body.appendChild(temp); temp.select();
+        document.execCommand('copy'); temp.remove();
+        $('copyBtn').textContent = '복사 완료 ✓';
+        setTimeout(() => $('copyBtn').textContent = '결과 요약 복사', 1800);
+      }
+    });
+  </script>
+</body>
+</html>
